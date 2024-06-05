@@ -2,9 +2,12 @@ package com.example.mapstruct_demo.service.impl;
 
 import com.example.mapstruct_demo.dto.EmployeeDto;
 import com.example.mapstruct_demo.entity.Employee;
+import com.example.mapstruct_demo.mapper.EmployeePopulater;
 import com.example.mapstruct_demo.repository.EmployeeRepository;
 import com.example.mapstruct_demo.service.EmployeeService;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -17,7 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee saveEmployee(EmployeeDto employeeDto) {
-        employeeRepository.save(null);
-        return null;
+        Employee employee = EmployeePopulater.INSTANCE.populateEmployee(employeeDto);
+        employee.setCreationDate(new Date());
+        return employeeRepository.save(employee);
     }
 }
